@@ -7,6 +7,29 @@ window.C5DemoData = {
     gym: 'Crunch - Tampa',
     city: 'Tampa, FL',
   },
+  gyms: [
+    {
+      name: 'Crunch - Tampa',
+      distance: '0.8 mi',
+      vibe: 'Best fit for early-morning accountability',
+      features: ['Open 24 hours', 'Strength area', 'Cardio floor'],
+      accent: 'linear-gradient(160deg, rgba(66,199,255,0.22), rgba(255,255,255,0.04))',
+    },
+    {
+      name: 'Amped Fitness - Tampa',
+      distance: '1.6 mi',
+      vibe: 'High-energy gym with strong evening traffic',
+      features: ['Free weights', 'Functional zone', 'Late-night access'],
+      accent: 'linear-gradient(160deg, rgba(168,107,255,0.22), rgba(255,255,255,0.04))',
+    },
+    {
+      name: 'EOS Fitness - Tampa',
+      distance: '2.4 mi',
+      vibe: 'Balanced option for flexible weekday sessions',
+      features: ['Classes', 'Machines', 'Recovery area'],
+      accent: 'linear-gradient(160deg, rgba(124,255,178,0.2), rgba(255,255,255,0.04))',
+    },
+  ],
   profiles: [
     {
       name: 'Jordan',
@@ -53,12 +76,12 @@ window.C5DemoData = {
   starterMessages: [
     { from: 'them', text: 'Hey! I usually train around 7 AM. Want to try a session tomorrow?' },
     { from: 'me', text: 'That works for me. I am trying to get more consistent this month.' },
-    { from: 'them', text: 'Perfect. Let’s start with a quick upper-body workout and keep it simple.' },
+    { from: 'them', text: 'Perfect. Let\'s start with a quick upper-body workout and keep it simple.' },
   ],
   quickReplies: [
     'Want to train tomorrow at 7?',
     'Leg day this week?',
-    'I’m at Crunch now',
+    'I\'m at Crunch now',
   ],
   progress: {
     weekPoints: 18,

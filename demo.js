@@ -7,7 +7,7 @@
   const stepCount = document.getElementById('demoStepCount');
   if (!app || !progressBar || !stepCount) return;
 
-  const steps = ['intro', 'discovery', 'match', 'messages', 'progress'];
+  const steps = ['intro', 'gyms', 'discovery', 'match', 'messages', 'progress'];
   const state = {
     step: 'intro',
     profileIndex: 0,
@@ -69,6 +69,57 @@
           </div>
         </article>
         <button class="demo-action demo-action-primary" data-action="start-demo">Start Demo</button>
+      </section>
+    `;
+  }
+
+  function renderGyms() {
+    const featuredGym = data.gyms[0];
+    return `
+      <section class="demo-screen">
+        <div class="demo-screen-header">
+          <span class="demo-mini-label">Gyms</span>
+          <h2>Find the nearest gyms first</h2>
+          <p>C5 can help users start from location, not guesswork, by surfacing nearby gyms before matching.</p>
+        </div>
+        <article class="demo-panel demo-map-panel">
+          <div class="demo-map-stage" style="background:${escapeHtml(featuredGym.accent)}">
+            <div class="demo-map-grid"></div>
+            <div class="demo-map-pin demo-map-pin-primary">
+              <label>You</label>
+            </div>
+            <div class="demo-map-pin demo-map-pin-gym demo-pin-a">
+              <label>${escapeHtml(data.gyms[0].name)}</label>
+            </div>
+            <div class="demo-map-pin demo-map-pin-gym demo-pin-b">
+              <label>${escapeHtml(data.gyms[1].name)}</label>
+            </div>
+            <div class="demo-map-pin demo-map-pin-gym demo-pin-c">
+              <label>${escapeHtml(data.gyms[2].name)}</label>
+            </div>
+          </div>
+          <div class="demo-gym-list">
+            ${data.gyms
+              .map(
+                (gym, index) => `
+                  <article class="demo-gym-card ${index === 0 ? 'is-featured' : ''}">
+                    <div class="demo-gym-topline">
+                      <div>
+                        <h3>${escapeHtml(gym.name)}</h3>
+                        <p>${escapeHtml(gym.vibe)}</p>
+                      </div>
+                      <span class="demo-gym-distance">${escapeHtml(gym.distance)}</span>
+                    </div>
+                    <div class="demo-gym-features">
+                      ${gym.features.map((feature) => `<span>${escapeHtml(feature)}</span>`).join('')}
+                    </div>
+                  </article>
+                `
+              )
+              .join('')}
+          </div>
+        </article>
+        <button class="demo-action demo-action-primary" data-action="see-people">See Nearby People</button>
       </section>
     `;
   }
@@ -246,13 +297,15 @@
     const markup =
       state.step === 'intro'
         ? renderIntro()
-        : state.step === 'discovery'
-          ? renderDiscovery()
-          : state.step === 'match'
-            ? renderMatch()
-            : state.step === 'messages'
-              ? renderMessages()
-              : renderProgress();
+        : state.step === 'gyms'
+          ? renderGyms()
+          : state.step === 'discovery'
+            ? renderDiscovery()
+            : state.step === 'match'
+              ? renderMatch()
+              : state.step === 'messages'
+                ? renderMessages()
+                : renderProgress();
 
     animateRender(markup);
   }
@@ -287,7 +340,8 @@
     app.querySelectorAll('[data-action]').forEach((element) => {
       element.addEventListener('click', () => {
         const action = element.dataset.action;
-        if (action === 'start-demo') setStep('discovery');
+        if (action === 'start-demo') setStep('gyms');
+        if (action === 'see-people') setStep('discovery');
         if (action === 'pass-profile') handlePassProfile();
         if (action === 'connect-profile') handleConnectProfile();
         if (action === 'open-chat') setStep('messages');
