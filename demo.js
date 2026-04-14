@@ -10,11 +10,29 @@
   const steps = ['intro', 'gyms', 'discovery', 'match', 'messages', 'progress'];
   const state = {
     step: 'intro',
+    viewer: (data.viewerProfiles && data.viewerProfiles.length
+      ? data.viewerProfiles[Math.floor(Math.random() * data.viewerProfiles.length)]
+      : data.viewer) || {
+      name: 'C5 User',
+      goal: 'Get consistent',
+      level: 'Beginner',
+      preferredTime: 'Mornings',
+      gym: 'Crunch - Tampa',
+      city: 'Tampa, FL',
+    },
     profileIndex: 0,
-    matchedProfile: data.profiles[0],
+    matchedProfile: null,
     messages: [...data.starterMessages],
     replyLocked: false,
   };
+
+  const activeGyms = state.viewer.gyms && state.viewer.gyms.length ? state.viewer.gyms : data.gyms || [];
+  const activeProfiles = state.viewer.profiles && state.viewer.profiles.length ? state.viewer.profiles : data.profiles || [];
+  const activeMatchReasons =
+    state.viewer.matchReasons && state.viewer.matchReasons.length ? state.viewer.matchReasons : data.matchReasons || [];
+
+  state.profileIndex = 0;
+  state.matchedProfile = activeProfiles[0] || null;
 
   function escapeHtml(value) {
     return String(value)
@@ -24,6 +42,29 @@
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
   }
+
+  function getCountryFromLocation(location) {
+    const parts = String(location || '')
+      .split(',')
+      .map((part) => part.trim())
+      .filter(Boolean);
+    return parts.length ? parts[parts.length - 1] : '';
+  }
+
+  function getLocationScopedProfiles() {
+    const sameCityProfiles = activeProfiles.filter((profile) => profile.city === state.viewer.city);
+    if (sameCityProfiles.length) return sameCityProfiles;
+
+    const viewerCountry = getCountryFromLocation(state.viewer.city);
+    const sameCountryProfiles = activeProfiles.filter(
+      (profile) => getCountryFromLocation(profile.city) === viewerCountry
+    );
+
+    return sameCountryProfiles.length ? sameCountryProfiles : activeProfiles;
+  }
+
+  const scopedProfiles = getLocationScopedProfiles();
+  state.matchedProfile = scopedProfiles[0] || state.matchedProfile;
 
   function setStep(step) {
     state.step = step;
@@ -49,23 +90,23 @@
           <div class="demo-avatar-lockup">
             <div class="demo-avatar demo-avatar-primary">C5</div>
             <div>
-              <strong>${escapeHtml(data.viewer.name)}</strong>
-              <span>${escapeHtml(data.viewer.city)}</span>
+              <strong>${escapeHtml(state.viewer.name)}</strong>
+              <span>${escapeHtml(state.viewer.city)}</span>
             </div>
           </div>
           <div class="demo-stat-row">
             <div class="demo-stat">
               <span>Goal</span>
-              <strong>${escapeHtml(data.viewer.goal)}</strong>
+              <strong>${escapeHtml(state.viewer.goal)}</strong>
             </div>
             <div class="demo-stat">
               <span>Level</span>
-              <strong>${escapeHtml(data.viewer.level)}</strong>
+              <strong>${escapeHtml(state.viewer.level)}</strong>
             </div>
           </div>
           <div class="demo-list">
-            <div><span>Preferred time</span><strong>${escapeHtml(data.viewer.preferredTime)}</strong></div>
-            <div><span>Primary gym</span><strong>${escapeHtml(data.viewer.gym)}</strong></div>
+            <div><span>Preferred time</span><strong>${escapeHtml(state.viewer.preferredTime)}</strong></div>
+            <div><span>Primary gym</span><strong>${escapeHtml(state.viewer.gym)}</strong></div>
           </div>
         </article>
         <button class="demo-action demo-action-primary" data-action="start-demo">Start Demo</button>
@@ -74,7 +115,8 @@
   }
 
   function renderGyms() {
-    const featuredGym = data.gyms[0];
+    const featuredGym = activeGyms[0];
+    if (!featuredGym) return '';
     return `
       <section class="demo-screen">
         <div class="demo-screen-header">
@@ -84,22 +126,48 @@
         </div>
         <article class="demo-panel demo-map-panel">
           <div class="demo-map-stage" style="background:${escapeHtml(featuredGym.accent)}">
+            <svg class="demo-map-svg" viewBox="0 0 420 240" aria-hidden="true" focusable="false">
+              <rect class="demo-map-water" x="0" y="0" width="420" height="240" rx="22"></rect>
+              <g class="demo-map-blocks">
+                <rect x="26" y="26" width="78" height="42" rx="10"></rect>
+                <rect x="128" y="24" width="98" height="52" rx="12"></rect>
+                <rect x="256" y="28" width="126" height="46" rx="12"></rect>
+                <rect x="48" y="104" width="114" height="54" rx="12"></rect>
+                <rect x="190" y="96" width="84" height="62" rx="12"></rect>
+                <rect x="296" y="104" width="88" height="52" rx="12"></rect>
+                <rect x="28" y="178" width="92" height="34" rx="10"></rect>
+                <rect x="148" y="174" width="120" height="38" rx="12"></rect>
+                <rect x="292" y="174" width="94" height="34" rx="10"></rect>
+              </g>
+              <g class="demo-map-roads">
+                <path d="M-10 78 C46 70, 88 88, 148 82 S250 60, 326 76 S390 98, 438 88"></path>
+                <path d="M-20 152 C50 136, 118 166, 184 150 S306 118, 438 144"></path>
+                <path d="M96 -10 C108 36, 86 92, 108 148 S160 226, 148 260"></path>
+                <path d="M246 -8 C234 42, 260 88, 242 138 S214 202, 226 258"></path>
+                <path d="M332 -6 C348 54, 316 110, 336 166 S374 220, 362 262"></path>
+              </g>
+              <path class="demo-map-route" d="M108 142 C138 132, 176 128, 214 110 S286 74, 328 86"></path>
+              <g class="demo-map-labels">
+                <text x="40" y="93">${escapeHtml(state.viewer.city)}</text>
+                <text x="284" y="162">Nearest gyms</text>
+              </g>
+            </svg>
             <div class="demo-map-grid"></div>
             <div class="demo-map-pin demo-map-pin-primary">
               <label>You</label>
             </div>
             <div class="demo-map-pin demo-map-pin-gym demo-pin-a">
-              <label>${escapeHtml(data.gyms[0].name)}</label>
+              <label>${escapeHtml(activeGyms[0].name)}</label>
             </div>
             <div class="demo-map-pin demo-map-pin-gym demo-pin-b">
-              <label>${escapeHtml(data.gyms[1].name)}</label>
+              <label>${escapeHtml((activeGyms[1] || activeGyms[0]).name)}</label>
             </div>
             <div class="demo-map-pin demo-map-pin-gym demo-pin-c">
-              <label>${escapeHtml(data.gyms[2].name)}</label>
+              <label>${escapeHtml((activeGyms[2] || activeGyms[0]).name)}</label>
             </div>
           </div>
           <div class="demo-gym-list">
-            ${data.gyms
+            ${activeGyms
               .map(
                 (gym, index) => `
                   <article class="demo-gym-card ${index === 0 ? 'is-featured' : ''}">
@@ -125,15 +193,16 @@
   }
 
   function renderDiscovery() {
-    const activeProfile = data.profiles[state.profileIndex];
-    const nextProfile = data.profiles[state.profileIndex + 1];
+    const activeProfile = scopedProfiles[state.profileIndex];
+    const nextProfile = scopedProfiles[state.profileIndex + 1];
+    if (!activeProfile) return '';
 
     return `
       <section class="demo-screen">
         <div class="demo-screen-header">
           <span class="demo-mini-label">Discover</span>
-          <h2>Find people near you</h2>
-          <p>Profiles are ranked around local fit, shared goals, gym overlap, and accountability style.</p>
+          <h2>Find people near you in ${escapeHtml(state.viewer.city)}</h2>
+          <p>Profiles are ranked around local fit, shared goals, gym overlap, and accountability style in your area.</p>
         </div>
         <div class="demo-deck">
           ${
@@ -177,6 +246,7 @@
 
   function renderMatch() {
     const match = state.matchedProfile;
+    if (!match) return '';
     return `
       <section class="demo-screen">
         <div class="demo-screen-header">
@@ -186,13 +256,13 @@
         </div>
         <article class="demo-panel">
           <div class="demo-match-lockup">
-            <div class="demo-avatar demo-avatar-primary">${escapeHtml(data.viewer.name.slice(0, 1))}</div>
+            <div class="demo-avatar demo-avatar-primary">${escapeHtml(state.viewer.name.slice(0, 1))}</div>
             <span class="demo-match-link"></span>
             <div class="demo-avatar" style="background:${escapeHtml(match.gradient)}">${escapeHtml(match.initials)}</div>
           </div>
           <div class="demo-match-score">${escapeHtml(match.score)}% compatibility</div>
           <div class="demo-reason-list">
-            ${data.matchReasons.map((reason) => `<div class="demo-reason-row">${escapeHtml(reason)}</div>`).join('')}
+            ${activeMatchReasons.map((reason) => `<div class="demo-reason-row">${escapeHtml(reason)}</div>`).join('')}
           </div>
         </article>
         <button class="demo-action demo-action-primary" data-action="open-chat">Open Chat</button>
@@ -202,6 +272,7 @@
 
   function renderMessages() {
     const match = state.matchedProfile;
+    if (!match) return '';
     return `
       <section class="demo-screen">
         <div class="demo-chat-header">
@@ -311,12 +382,12 @@
   }
 
   function handlePassProfile() {
-    state.profileIndex = (state.profileIndex + 1) % data.profiles.length;
+    state.profileIndex = (state.profileIndex + 1) % scopedProfiles.length;
     render();
   }
 
   function handleConnectProfile() {
-    state.matchedProfile = data.profiles[state.profileIndex];
+    state.matchedProfile = scopedProfiles[state.profileIndex];
     setStep('match');
   }
 
