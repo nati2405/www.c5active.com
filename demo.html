@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>C5 Active Live Demo</title>
+    <link rel="icon" type="image/png" href="./images/c5_logo.png" />
+    <meta
+      name="description"
+      content="Try the C5 Active live demo and explore onboarding, local discovery, messaging, and accountability in one guided product preview."
+    />
+    <meta property="og:title" content="C5 Active | Live Demo" />
+    <meta
+      property="og:description"
+      content="Preview the C5 Active product flow through onboarding, discovery, matching, messaging, and momentum tracking."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://c5active.com/demo.html" />
+    <meta property="og:image" content="https://c5active.com/images/c5_logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./demo.css" />
+  </head>
+  <body data-page="demo">
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="particles" id="particles"></div>
+
+    <header class="site-header">
+      <div class="site-header-top">
+        <div class="logo-wrap">
+          <img src="images/c5_logo.png" alt="C5 Active logo" class="logo" />
+          <span class="logo-text">C5 Active</span>
+        </div>
+        <a class="header-beta-btn" href="./index.html#launch-alerts">Join Beta</a>
+      </div>
+      <nav class="site-nav">
+        <a data-page="home" href="./index.html">Home</a>
+        <a data-page="about" href="./about.html">About</a>
+        <a data-page="founders" href="./founders.html">Founders</a>
+        <a data-page="roadmap" href="./roadmap.html">Roadmap</a>
+        <a data-page="demo" href="./demo.html">Live Demo</a>
+        <a data-page="contact" href="./contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <main class="demo-main">
+      <section class="hero reveal demo-hero">
+        <div class="demo-copy">
+          <p class="eyebrow">Live Product Preview</p>
+          <h1>Try the core C5 Active flow in under a minute.</h1>
+          <p class="hero-copy">
+            This guided demo walks through onboarding, local partner discovery, matching, messaging, and consistency
+            tracking using a polished in-browser experience modeled after the app.
+          </p>
+
+          <div class="demo-highlights panel reveal">
+            <div class="demo-highlight">
+              <span class="demo-highlight-value">5</span>
+              <span class="demo-highlight-label">core product moments</span>
+            </div>
+            <div class="demo-highlight">
+              <span class="demo-highlight-value">1 min</span>
+              <span class="demo-highlight-label">guided preview</span>
+            </div>
+            <div class="demo-highlight">
+              <span class="demo-highlight-value">Real feel</span>
+              <span class="demo-highlight-label">app-matched design system</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="demo-experience" class="demo-stage reveal">
+          <div class="demo-stage-shell">
+            <div class="demo-phone">
+              <div class="demo-phone-top">
+                <span>9:41</span>
+                <span class="demo-phone-signal">5G</span>
+              </div>
+              <div class="demo-phone-notch"></div>
+              <div class="demo-phone-screen">
+                <div class="demo-statusbar">
+                  <span id="demoStepCount" class="demo-status-pill">Step 1 of 5</span>
+                  <div class="demo-progress"><span id="demoProgressBar"></span></div>
+                </div>
+                <div id="demoApp" class="demo-app"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel reveal">
+        <h2>What You'll Experience</h2>
+        <div class="demo-feature-grid">
+          <article class="demo-feature-card">
+            <h3>Onboarding snapshot</h3>
+            <p>See how C5 frames routine, goals, and gym context right from the start.</p>
+          </article>
+          <article class="demo-feature-card">
+            <h3>Local discovery</h3>
+            <p>Preview match cards shaped around city, goals, availability, and gym fit.</p>
+          </article>
+          <article class="demo-feature-card">
+            <h3>Messages + momentum</h3>
+            <p>Move from connection into chat and finish with the accountability dashboard.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p><span id="year"></span> C5 Active. All rights reserved.</p>
+    </footer>
+
+    <script src="./main.js"></script>
+    <script src="./demo-data.js"></script>
+    <script src="./demo.js"></script>
+  </body>
+</html>

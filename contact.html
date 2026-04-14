@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>C5 Active | Contact</title>
+    <link rel="icon" type="image/png" href="./images/c5_logo.png" />
+    <meta
+      name="description"
+      content="Contact the C5 Active team about partnerships, beta interest, feedback, or product questions."
+    />
+    <meta property="og:title" content="C5 Active | Contact" />
+    <meta
+      property="og:description"
+      content="Reach out to the C5 Active team for partnerships, feedback, and launch-related inquiries."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://c5active.com/contact.html" />
+    <meta property="og:image" content="https://c5active.com/images/c5_logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body data-page="contact">
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="particles" id="particles"></div>
+
+    <header class="site-header">
+      <div class="site-header-top">
+        <div class="logo-wrap">
+          <img src="images/c5_logo.png" alt="C5 Active logo" class="logo" />
+          <span class="logo-text">C5 Active</span>
+        </div>
+        <a class="header-beta-btn" href="./index.html#launch-alerts">Join Beta</a>
+      </div>
+      <nav class="site-nav">
+        <a data-page="home" href="./index.html">Home</a>
+        <a data-page="about" href="./about.html">About</a>
+        <a data-page="founders" href="./founders.html">Founders</a>
+        <a data-page="roadmap" href="./roadmap.html">Roadmap</a>
+        <a data-page="demo" href="./demo.html">Live Demo</a>
+        <a data-page="contact" href="./contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero reveal">
+        <p class="eyebrow">Contact C5 Team</p>
+        <h1>Reach out directly to the C5 team.</h1>
+        <p class="hero-copy">
+          Questions, partnerships, beta interest, feedback, or media inquiries. Send a message and the team will get
+          back to you.
+        </p>
+      </section>
+
+      <section class="panel reveal">
+        <h2>Send a Message</h2>
+        <form id="contactForm" class="contact-form" novalidate>
+          <input class="contact-input" type="text" name="name" placeholder="Your name" required />
+          <input class="contact-input" type="email" name="email" placeholder="Email address" required />
+          <textarea class="contact-textarea" name="message" placeholder="Write your message..." required></textarea>
+          <input
+            type="text"
+            name="_honey"
+            class="honey-field"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+          />
+          <button class="contact-submit" type="submit">Send Message</button>
+        </form>
+        <p id="contactFeedback" class="form-feedback"></p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p><span id="year"></span> C5 Active. All rights reserved.</p>
+    </footer>
+
+    <script src="./main.js"></script>
+  </body>
+</html>
