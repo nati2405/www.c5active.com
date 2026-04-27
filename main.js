@@ -235,6 +235,38 @@ function addAmbientParticles() {
   }
 }
 
+function setupAutoHidingHeader() {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+
+  let lastY = window.scrollY;
+  let ticking = false;
+
+  function updateHeader() {
+    const currentY = window.scrollY;
+    const delta = currentY - lastY;
+
+    if (currentY <= 16 || delta < -6) {
+      header.classList.remove('is-hidden');
+    } else if (delta > 8 && currentY > 120) {
+      header.classList.add('is-hidden');
+    }
+
+    lastY = currentY;
+    ticking = false;
+  }
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateHeader);
+    },
+    { passive: true }
+  );
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   markActiveNav();
   setupContactForm();
@@ -243,4 +275,5 @@ document.addEventListener('DOMContentLoaded', () => {
   revealOnScroll();
   addCardTilt();
   addAmbientParticles();
+  setupAutoHidingHeader();
 });
